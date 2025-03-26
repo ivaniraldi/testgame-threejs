@@ -6,27 +6,31 @@ const cors = require('cors');
 
 const app = express();
 const server = http.createServer(app);
+
+// Configuración de CORS para permitir desarrollo local y producción
 app.use(cors({
-    origin: 'https://testgame-threejs-1.onrender.com',
+    origin: ['http://127.0.0.1:5500', 'https://testgame-threejs-1.onrender.com'],
     methods: ['GET', 'POST'],
     credentials: true
 }));
+
 const io = new Server(server, {
     cors: {
-        origin: 'https://testgame-threejs-1.onrender.com',
+        origin: ['http://127.0.0.1:5500', 'https://testgame-threejs-1.onrender.com'],
         methods: ['GET', 'POST'],
         credentials: true
     }
 });
 
+// Resto del código del servidor sigue igual...
 const pool = new Pool({
     connectionString: "postgresql://webrush%20brasil_owner:npg_U0XCqgsPY1vM@ep-damp-sound-a8phcjpa-pooler.eastus2.azure.neon.tech/webrush%20brasil?sslmode=require",
     ssl: {
-      rejectUnauthorized: false // Necesario para conexiones SSL con Neon
+        rejectUnauthorized: false
     }
-  });
+});
 
-// Crear tabla con player_id, player_name y score
+// Crear tabla...
 pool.query(`
     CREATE TABLE IF NOT EXISTS scores (
         player_id VARCHAR(255) PRIMARY KEY,
@@ -35,7 +39,7 @@ pool.query(`
     )
 `).then(() => console.log('Tabla de puntajes lista'));
 
-const players = {}; // Almacena posición y nombre: { id: { pos: {x, y}, name } }
+const players = {};
 const adsDatabase = {
     '0,0': [{ x: 100, y: 100, textureUrl: 'assets/ads/brand1.png' }],
     '1,0': [{ x: 700, y: 100, textureUrl: 'assets/ads/brand2.png' }],
@@ -63,7 +67,6 @@ function generateAdsForChunk(chunkKey) {
 io.on('connection', (socket) => {
     console.log('Jugador conectado:', socket.id);
 
-    // Recibir el nombre del jugador
     socket.on('setName', (name) => {
         players[socket.id] = { pos: { x: 0, y: 0 }, name };
         pool.query(
@@ -94,7 +97,6 @@ io.on('connection', (socket) => {
     });
 });
 
-// Incrementar puntaje cada segundo
 setInterval(() => {
     for (const id in players) {
         pool.query(
@@ -104,7 +106,6 @@ setInterval(() => {
     }
 }, 1000);
 
-// Enviar los 3 mejores jugadores cada 5 segundos
 setInterval(() => {
     pool.query(
         'SELECT player_name, score FROM scores ORDER BY score DESC LIMIT 3'
