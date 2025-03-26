@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego de Exploración 2D con Three.js</title>
+    <style>
+        body { margin: 0; background: #000; }
+        canvas { display: block; }
+        #top-players {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        #top-players h2 { margin: 0; font-size: 18px; }
+        #top-list { list-style: none; padding: 0; }
+    </style>
+</head>
+<body>
+    <div id="top-players">
+        <h2>Top Jugadores</h2>
+        <ul id="top-list"></ul>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.1/socket.io.min.js"></script>
+    <script src="game.js"></script>
+</body>
+</html>
