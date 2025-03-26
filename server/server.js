@@ -20,12 +20,11 @@ const io = new Server(server, {
 });
 
 const pool = new Pool({
-    user: 'postgres',
-    host: 'localhost',
-    database: 'mydwarf',
-    password: 'iraldi11',
-    port: 5433,
-});
+    connectionString: "postgresql://webrush%20brasil_owner:npg_U0XCqgsPY1vM@ep-damp-sound-a8phcjpa-pooler.eastus2.azure.neon.tech/webrush%20brasil?sslmode=require",
+    ssl: {
+      rejectUnauthorized: false // Necesario para conexiones SSL con Neon
+    }
+  });
 
 // Crear tabla con player_id, player_name y score
 pool.query(`
