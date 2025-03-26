@@ -7,13 +7,13 @@ const cors = require('cors');
 const app = express();
 const server = http.createServer(app);
 app.use(cors({
-    origin: 'http://127.0.0.1:5500',
+    origin: 'https://testgame-threejs-1.onrender.com',
     methods: ['GET', 'POST'],
     credentials: true
 }));
 const io = new Server(server, {
     cors: {
-        origin: 'http://127.0.0.1:5500',
+        origin: 'https://testgame-threejs-1.onrender.com',
         methods: ['GET', 'POST'],
         credentials: true
     }
