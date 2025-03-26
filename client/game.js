@@ -61,7 +61,7 @@ const ads = new Map();
 const chunkSize = 600;
 
 // Conexión al servidor con Socket.io
-const socket = io('http://localhost:3000');
+const socket = io('https://testgame-threejs.onrender.com');
 
 // Enviar el nombre al servidor al conectar
 socket.on('connect', () => {
